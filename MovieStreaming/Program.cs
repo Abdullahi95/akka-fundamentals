@@ -36,7 +36,7 @@ namespace MovieStreaming
             // actor reference to tell the actor do something. 
 
 
-            playbackActorRef.Tell(new PlayMovieMessage(42, "Akka"));
+            playbackActorRef.Tell(new PlayMovieMessage(42, "Akka.NET"));
 
             Console.ReadLine();
 
