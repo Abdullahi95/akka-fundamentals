@@ -8,6 +8,7 @@ namespace MovieStreaming.Actor
 {
     public class PlaybackActor : ReceiveActor
     {
+        // Less code than the untyped actor.
 
         public PlaybackActor()
         {
@@ -25,9 +26,9 @@ namespace MovieStreaming.Actor
 
             // 5. Now we can further refine whether a message will be handled or not. We can do this with using one of the overloads of the receive methods which allows us to specify a predicate to determine whether we should handle the message or not.
             
-            // 6. So below we are only handling for the messages with the userid is equal to 42.
+            // 6. So below we are only handling for the messages with the userid are greating than 0.
 
-           Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message), message => message.UserId == 42);
+           Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message), message => message.UserId > 0);
         }
 
         // This method gets executed when a playmoviemessage is received.
@@ -37,6 +38,39 @@ namespace MovieStreaming.Actor
             Console.WriteLine(playMovieMessage.UserId);
         }
 
-        // Less code than the untyped actor.
+        // the base casses implemenetation of PreStart() is empty so there is no need for base.AroundPreStart();
+       // this method is called before the actor starts processing the message.
+        public override void AroundPreStart()
+        {
+            Console.WriteLine("PlaybackActor PreStart");
+        }
+
+        public override void AroundPostStop()
+        {
+            Console.WriteLine("PlaybackActor PostStop");
+
+        }
+
+        public override void AroundPostRestart(Exception cause, object message)
+        {
+
+            Console.WriteLine("PlaybackActor PostRestart because: " + cause);
+            
+            base.AroundPostRestart(cause, message);
+        }
+
+        protected override void PreRestart(Exception reason, object message)
+        {
+            Console.WriteLine("PlaybackActor PreStart because: " + reason);
+
+            base.PreRestart(reason, message);
+        }
+
+        
+
+
+
+
+
     }
 }

@@ -36,12 +36,23 @@ namespace MovieStreaming
             // actor reference to tell the actor do something. 
 
 
-            playbackActorRef.Tell(new PlayMovieMessage(42, "Akka.NET"));
+            playbackActorRef.Tell(new PlayMovieMessage(1, "A"));
+            playbackActorRef.Tell(new PlayMovieMessage(2, "B"));
+            playbackActorRef.Tell(new PlayMovieMessage(3, "C"));
+            playbackActorRef.Tell(new PlayMovieMessage(4, "D"));
+
 
             Console.ReadLine();
-
+            
+            // Tell actor system (and all child actors) to shutdown
             MovieStreamingActorSystem.Terminate();
-            // shutdown method wass deprecated and then removed, and has been replaced with terminate.
+
+            // Wait for the actor system to finish shutting down.
+            MovieStreamingActorSystem.Terminate().Wait();
+
+            Console.WriteLine("Actor system shutdown");
+            Console.ReadLine();
+            // shutdown method was deprecated and then removed, and has been replaced with terminate.
 
         }
     }
