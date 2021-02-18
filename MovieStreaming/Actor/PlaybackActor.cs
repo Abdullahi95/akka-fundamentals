@@ -34,37 +34,39 @@ namespace MovieStreaming.Actor
         // This method gets executed when a playmoviemessage is received.
         private void HandlePlayMovieMessage(PlayMovieMessage playMovieMessage)
         {
-            Console.WriteLine(playMovieMessage.MovieTitle);
-            Console.WriteLine(playMovieMessage.UserId);
+            Console.WriteLine($"Movie Title : {playMovieMessage.MovieTitle},  UserId: {playMovieMessage.UserId}");
+          
         }
 
-        // the base casses implemenetation of PreStart() is empty so there is no need for base.AroundPreStart();
-       // this method is called before the actor starts processing the message.
+        // the base classes implemenetation of PreStart() is empty so there is no need for base.AroundPreStart();
+       //  this method is called before the actor starts processing the message.
         public override void AroundPreStart()
         {
+            //  this is called before the actor starts processing any messages.
             Console.WriteLine("PlaybackActor PreStart");
         }
 
         public override void AroundPostStop()
         {
+            // this is called after the stopping phase 
             Console.WriteLine("PlaybackActor PostStop");
 
         }
 
-        public override void AroundPostRestart(Exception cause, object message)
-        {
+        //public override void AroundPostRestart(Exception cause, object message)
+        //{
 
-            Console.WriteLine("PlaybackActor PostRestart because: " + cause);
-            
-            base.AroundPostRestart(cause, message);
-        }
+        //    Console.WriteLine("PlaybackActor PostRestart because: " + cause);
+        //    // there is a reason why we use the base classes AroundPostRestart
+        //    base.AroundPostRestart(cause, message);
+        //}
 
-        protected override void PreRestart(Exception reason, object message)
-        {
-            Console.WriteLine("PlaybackActor PreStart because: " + reason);
-
-            base.PreRestart(reason, message);
-        }
+        //protected override void PreRestart(Exception reason, object message)
+        //{
+        //    Console.WriteLine("PlaybackActor PreStart because: " + reason);
+        //    // there is a reason why we use the base classes AroundPreRestart
+        //    base.PreRestart(reason, message);
+        //}
 
         
 

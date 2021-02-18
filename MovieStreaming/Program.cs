@@ -27,21 +27,37 @@ namespace MovieStreaming
             // one of the Akkka.Net factory methods.
             Props playbackActorProps = Props.Create<PlaybackActor>();
 
+            Props userActorProps = Props.Create<UserActor>();
+
 
             // Here we create our PlaybackActor. inside the MovieStreamingActory system.
             // We also got the reference to the actor in our playbackActorRef.
-            IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "PlaybackActor");
+            // IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "PlaybackActor");
+
+            IActorRef userActorRef = MovieStreamingActorSystem.ActorOf(userActorProps, "UserActor");
 
             // We have already have the reference to our actor in this playbackActorRef variable. So we can use this
             // actor reference to tell the actor do something. 
 
 
-            playbackActorRef.Tell(new PlayMovieMessage(1, "A"));
-            playbackActorRef.Tell(new PlayMovieMessage(2, "B"));
-            playbackActorRef.Tell(new PlayMovieMessage(3, "C"));
-            playbackActorRef.Tell(new PlayMovieMessage(4, "D"));
+            Console.ReadLine();
+            Console.WriteLine("Sending a PlayMovieMessage (Movie A)");
+            userActorRef.Tell(new PlayMovieMessage(1, "Movie A"));
+
+            Console.ReadLine();
+            Console.WriteLine("Sending a PlayMovieMessage (Movie B)");
+            userActorRef.Tell(new PlayMovieMessage(2, "Movie B"));
+
+            Console.ReadLine();
+            Console.WriteLine("Sending a StopMovieMessage");
+            userActorRef.Tell(new StopMovieMessage());
 
 
+            Console.ReadLine();
+            Console.WriteLine("Sending a StopMovieMessage");
+            userActorRef.Tell(new StopMovieMessage());
+
+            
             Console.ReadLine();
             
             // Tell actor system (and all child actors) to shutdown
