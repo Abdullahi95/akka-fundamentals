@@ -15,25 +15,35 @@ namespace MovieStreaming.Actor
         {
             Console.WriteLine("User Actor actor created");
 
-            
-            Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
-            Receive<StopMovieMessage>(message => HandleStopMovieMessage());
+            Console.WriteLine("Setting initial behaviour to stopped");
+
+            // To set the initial behaviour to stopped we call it in the constructor. (Check if this is always how its done)
+
+            Stopped();
+
+
+            //Receive<PlayMovieMessage>(message => HandlePlayMovieMessage(message));
+            //Receive<StopMovieMessage>(message => HandleStopMovieMessage());
 
         }
 
-        private void HandlePlayMovieMessage(PlayMovieMessage message)
+        // We need to define below what happens when we recieve a message for the playing behaviour.
+        private void Playing()
         {
-            if (_currentlyWatching != null)
-            {
-                Console.WriteLine("Error: Cannot start playing another movie before stopping existing one");
-            }
+            Receive<PlayMovieMessage>(message => Console.WriteLine("Error: cannot start playing another movie before stopping existing one"));
+            
+            Receive<StopMovieMessage>(message => StopPlayingCurrentMovie());
+        }
 
-            else
-            {
-                StartPlayingMovie(message.MovieTitle);
-            }
+        private void Stopped()
+        {
+            Receive<PlayMovieMessage>(message => StartPlayingMovie(message.MovieTitle));
+            Receive<StopMovieMessage>(message => Console.WriteLine("Error: Cannot stop a movie if no movies are playing"));
+
+            Console.WriteLine("User Actor has now Stopped");
 
         }
+
 
         private void StartPlayingMovie(string movieTitle)
         {
@@ -41,25 +51,19 @@ namespace MovieStreaming.Actor
             _currentlyWatching = movieTitle;
 
             Console.WriteLine($"User is watching {_currentlyWatching}");
-        }
 
-        private void HandleStopMovieMessage()
-        {
-            if (_currentlyWatching == null)
-            {
-                Console.WriteLine("Cannot stop playing if nothing is playing");
-            }
 
-            else
-            {
-                StopPlayingCurrentMovie();
-            }
+            // We are going to switch our behaviour from stopped to playing behaviour.
+            Become(Playing);
         }
 
         private void StopPlayingCurrentMovie()
         {
             Console.WriteLine($"User has stopped watching {_currentlyWatching}");
             _currentlyWatching = null;
+
+
+            Become(Stopped);
         }
 
         public override void AroundPreStart()
