@@ -10,10 +10,13 @@ namespace MovieStreaming.Actor
         // We can add some state to our userActor
 
         private string _currentlyWatching;
+        private readonly int userId;
 
-        public UserActor()
+        public UserActor(int userId)
         {
-            Console.WriteLine("User Actor actor created");
+            this.userId = userId;
+
+            Console.WriteLine($"User Actor {userId} actor created");
 
             Console.WriteLine("Setting initial behaviour to stopped");
 
