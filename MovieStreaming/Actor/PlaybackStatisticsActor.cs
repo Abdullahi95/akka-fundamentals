@@ -1,5 +1,6 @@
 ﻿using System;
 using Akka.Actor;
+using MovieStreaming.Message;
 
 namespace MovieStreaming.Actor
 {
@@ -8,6 +9,10 @@ namespace MovieStreaming.Actor
         public PlaybackStatisticsActor()
         {
             Console.WriteLine("Creating PlaybackStatisticsActor");
+            IActorRef childMoviePlayCounterActor = Context.ActorOf(Props.Create(() => new MoviePlayCounterActor()), "MoviePlayCounterActor");
+
+            this.Receive<IncrementPlayCountMessage>(message => childMoviePlayCounterActor.Tell(message));
+
         }
 
 

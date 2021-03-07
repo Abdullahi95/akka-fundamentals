@@ -32,7 +32,7 @@ namespace MovieStreaming
 
             // Here we create our PlaybackActor. inside the MovieStreamingActory system.
             // We also got the reference to the actor in our playbackActorRef.
-            IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "PlaybackActor");
+            IActorRef playbackActorRef = MovieStreamingActorSystem.ActorOf(playbackActorProps, "playbackActor");
 
 
 

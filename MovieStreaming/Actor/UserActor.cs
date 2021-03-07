@@ -55,6 +55,7 @@ namespace MovieStreaming.Actor
 
             Console.WriteLine($"User is watching {_currentlyWatching}");
 
+            Context.ActorSelection("/user/playbackActor/playbackStatisticActor").Tell(new IncrementPlayCountMessage(movieTitle));
 
             // We are going to switch our behaviour from stopped to playing behaviour.
             Become(Playing);
